@@ -5,6 +5,19 @@
 >
   <span class="visually-hidden">Loading...</span>
 </div>
+<div class="mb-3 mt-3">
+  <label for="exampleFormControlInput1" class="form-label">Ürün Ara</label>
+  <input
+    type="text"
+    [(ngModel)]="filterText"
+    class="form-control"
+    id="filterText"
+    id="exampleFormControlInput1"
+    placeholder="arama ifadesi giriniz"
+  />
+</div>
+<div *ngIf="filterText" class="alert alert-danger">{{filterText}} aradınız</div>
+
 <table *ngIf="dataLoaded == true" class="table">
   <thead>
     <tr>
@@ -12,15 +25,17 @@
       <th scope="col">Ürün Adı</th>
       <th scope="col">Kategori</th>
       <th scope="col">Fiyat</th>
+      <th scope="col">KDV'li Fiyat</th>
       <th scope="col">Stok Adedi</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let product of products">
       <td>{{ product.productId }}</td>
-      <td>{{ product.productName }}</td>
+      <td>{{ product.productName | uppercase }}</td>
       <td>{{ product.categoryId }}</td>
-      <td>{{ product.unitPrice }}</td>
+      <td>{{ product.unitPrice | currency }}</td>
+      <td>{{ product.unitPrice | vatAdded: 10 | currency }}</td>
       <td>{{ product.unitsInStock }}</td>
     </tr>
   </tbody>
