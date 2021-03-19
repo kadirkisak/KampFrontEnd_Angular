@@ -16,7 +16,7 @@
     placeholder="arama ifadesi giriniz"
   />
 </div>
-<div *ngIf="filterText" class="alert alert-danger">{{filterText}} aradınız</div>
+<div *ngIf="filterText.length>2" class="alert alert-danger">{{filterText}} aradınız</div>
 
 <table *ngIf="dataLoaded == true" class="table">
   <thead>
@@ -27,16 +27,18 @@
       <th scope="col">Fiyat</th>
       <th scope="col">KDV'li Fiyat</th>
       <th scope="col">Stok Adedi</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let product of products">
+    <tr *ngFor="let product of products |filterPipe:filterText">
       <td>{{ product.productId }}</td>
       <td>{{ product.productName | uppercase }}</td>
       <td>{{ product.categoryId }}</td>
       <td>{{ product.unitPrice | currency }}</td>
       <td>{{ product.unitPrice | vatAdded: 10 | currency }}</td>
       <td>{{ product.unitsInStock }}</td>
+      <td><button (click)="addToCart(product)" type="button" class="btn btn-success">Sepete ekle</button></td>
     </tr>
   </tbody>
 </table>
